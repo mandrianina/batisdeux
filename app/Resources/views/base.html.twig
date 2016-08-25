@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Job Board{% endblock %}</title>
+	{% block stylesheets %}
+    {% stylesheets '@BatisCrowdsourcingBundle/Resources/public/css/*' filter='cssrewrite' %}
+    	<link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {% endblock %}
+
+  </head>
+  <body>
+  	{% block body %} {% endblock %}
+
+	{% block javascripts %}
+	{% javascripts '@BatisCrowdsourcingBundle/Resources/public/js/jquery.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/bootstrap.min.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/jquery.easytabs.min.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/modernizr.custom.49511.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/owl.carousel.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/jshashtable-2.1_src.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/jquery.numberformatter-1.2.3.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/tmpl.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/jquery.dependClass-0.1.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/draggable-0.1.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/jquery.slider.js'
+                 '@BatisCrowdsourcingBundle/Resources/public/js/job-board.js'
+                  %}
+	<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	{% endblock %}
+  </body>
+</html>

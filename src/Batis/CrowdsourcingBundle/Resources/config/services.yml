@@ -1,0 +1,4 @@
+services:
+#    batis_crowdsourcing.example:
+#        class: Batis\CrowdsourcingBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
