@@ -1,0 +1,43 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% block fos_user_content %}
+<div id="bodyLogin">
+<div id="clouds">
+	<div class="cloud x1"></div>
+	<!-- Time for multiple clouds to dance around -->
+	<div class="cloud x2"></div>
+	<div class="cloud x3"></div>
+	<div class="cloud x4"></div>
+	<div class="cloud x5"></div>
+</div>
+
+ <div class="containerLogin">
+
+ 	<div id="login">
+		{% if error %}
+    		<div>{{ error|trans({}, 'FOSUserBundle') }}</div>
+		{% endif %}
+		<form action="{{ path("fos_user_security_check") }}" method="post" class="form-vertical">
+    		<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+    		<label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+    		<p><span class="fontawesome-user"></span><input type="text" id="username" name="_username" value="{{ last_username }}" required="required" ></p>
+
+    		<label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+    		<p><span class="fontawesome-lock"></span><input type="password" id="password" name="_password" required="required" ></p>
+
+    		<div class="row">
+    			<div class="col-md-4">
+    				<label for="remember_me" class="label-control">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+    			</div>
+    			<div class="col-md-8">
+    				<input class="form-control" type="checkbox" id="remember_me" name="_remember_me" value="on" ></input>
+    			</div>
+    		</div>
+
+    		<input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+		</form>
+		<p>Not a member? <a href="{{ path('fos_user_registration_register') }}" class="blue">Sign up now</a><span class="fontawesome-arrow-right"></span></p>
+	</div>
+</div>
+</div>
+{% endblock fos_user_content %}

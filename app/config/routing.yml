@@ -1,9 +1,5 @@
 batis_crowdsourcing:
     resource: "@BatisCrowdsourcingBundle/Resources/config/routing.yml"
-    prefix:   /crowdsourcing
-
-batis_user:
-    resource: "@BatisUserBundle/Resources/config/routing.yml"
     prefix:   /
 
 fos_user_security:
