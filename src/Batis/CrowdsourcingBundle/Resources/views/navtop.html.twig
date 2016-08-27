@@ -15,7 +15,7 @@
                 			{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
                 				<li><a href="{{ path('fos_user_security_logout') }}" class="btn btn-default btn-green btn-sm">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>          
             				{% else %}
-            					<li><a href="#" class="btn btn-default btn-blue btn-sm">REGISTER</a></li>
+            					<li><a href="{{ path('fos_user_registration_register') }}" class="btn btn-default btn-blue btn-sm">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
 								<li><a href="{{ path('fos_user_security_login') }}" class="btn btn-default btn-green btn-sm" >{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
             				{% endif %}
 						</ul>
@@ -26,15 +26,17 @@
 			<div class="container"><!-- container -->
 				<div class="row">
 					<div class="col-md-4"><!-- logo -->
-						<a href="index-2.html" title="Job Board" rel="home">
-							<img class="main-logo" src="../Resources/public/css/images/logo.png" alt="job board" />
+						<a href="{{ path('batis_crowdsourcing_homepage') }}" title="Job Board" rel="home">
+							{% image '@BatisCrowdsourcingBundle/Resources/public/images/logo.png' %}
+	    						<img src= " {{ asset_url }} " alt="dummy-slide" class="main-logo" />
+							{% endimage %}
 						</a>
 					</div><!-- logo -->
 					<div class="col-md-8 main-nav"><!-- Main Navigation -->
 						<a id="touch-menu" class="mobile-menu" href="#"><i class="fa fa-bars fa-2x"></i></a>
 						<nav>
 							<ul class="menu">
-								<li><a href="index-2.html">HOME</a>
+								<li><a href="{{ path('batis_crowdsourcing_homepage') }}">HOME</a>
 									<ul class="sub-menu">
 										<li><a href="#about.html">About Page</a></li>
 										<li><a href="#blog.html">Blog Page</a></li>
@@ -42,15 +44,15 @@
 										<li><a href="#job-detail.html">Single Job Page</a></li>
 										<li><a href="#homepage-joblisting.html">Job Listing</a></li>
 										<li><a href="#contact.html">Contact</a></li>
-										<li><a href="#register.html">Register Page</a></li>
-										<li><a href="#signin.html">Login Page</a></li>
+										<li><a href="{{ path('fos_user_registration_register') }}">Register Page</a></li>
+										<li><a href="{{ path('fos_user_security_login') }}">Login Page</a></li>
 										<li><a href="#short-codes.html">Short Code</a></li>
-										<li><a  href="#post-job.html">Post a Job</a></li>
+										<li><a  href="{{ path('batis_crowdsourcing_postjob') }}">Post a Job</a></li>
 										<li><a  href="#post-resume.html">Post a Resume</a></li>
 									</ul>
 								</li>
 								<li><a  href="#">JOB SEARCH</a></li>
-								<li><a  href="#post-job.html">POST A JOB</a></li>
+								<li><a  href="{{ path('batis_crowdsourcing_postjob') }}">POST A JOB</a></li>
 								<li><a  href="#post-resume.html">POST A RESUME</a></li>
 								<li><a  href="#">PRICING</a></li>
 								<li><a  href="#short-codes.html">SHORTCODE</a></li>

@@ -2,6 +2,6 @@ batis_crowdsourcing_homepage:
     path:     /
     defaults: { _controller: BatisCrowdsourcingBundle:Project:index }
 
-batis_crowdsourcing_add:
-    path:     /add
+batis_crowdsourcing_postjob:
+    path:     /postjob
     defaults: { _controller: BatisCrowdsourcingBundle:Project:add }

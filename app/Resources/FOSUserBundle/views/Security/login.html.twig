@@ -1,4 +1,11 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets '@BatisCrowdsourcingBundle/Resources/public/css/styleLogin.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block fos_user_content %}
 <div id="bodyLogin">
 <div id="clouds">
@@ -36,7 +43,7 @@
 
     		<input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
 		</form>
-		<p>Not a member? <a href="{{ path('fos_user_registration_register') }}" class="blue">Sign up now</a><span class="fontawesome-arrow-right"></span></p>
+		<p>{{ 'form.not_a_member'|trans({}, 'FOSUserBundle') }} <a href="{{ path('fos_user_registration_register') }}" class="blue">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a><span class="fontawesome-arrow-right"></span></p>
 	</div>
 </div>
 </div>
