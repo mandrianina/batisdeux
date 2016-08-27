@@ -5,3 +5,9 @@ batis_crowdsourcing_homepage:
 batis_crowdsourcing_postjob:
     path:     /postjob
     defaults: { _controller: BatisCrowdsourcingBundle:Project:add }
+
+batis_crowdsourcing_jobdetail:
+    path:     /jobdetail/{id}
+    defaults: { _controller: BatisCrowdsourcingBundle:Project:view }
+    requirements:
+      id: \d+
