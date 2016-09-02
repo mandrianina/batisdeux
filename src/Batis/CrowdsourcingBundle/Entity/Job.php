@@ -9,18 +9,42 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="job")
  * @ORM\Entity(repositoryClass="Batis\CrowdsourcingBundle\Repository\JobRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Job
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="Batis\CrowdsourcingBundle\Entity\Category")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $category;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->skills = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Batis\CrowdsourcingBundle\Entity\Skill", cascade={"persist"})
+     */
+    private $skills;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Batis\CrowdsourcingBundle\Entity\Category")
+     * @ORM\JoinColumn(onDelete="SET NULL")
+     */
+    private $category;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Batis\UserBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $user;
 
@@ -42,16 +66,47 @@ class Job
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\Column(name="overview", type="string", length=65535, nullable=true)
      */
-    private $type;
+    private $overview;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nombre_contributeur", type="integer", nullable=true)
+     */
+    private $nombre_contributeur;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="expires_at", type="datetime", nullable=true)
+     */
+    private $expiresAt;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="Batis\CrowdsourcingBundle\Entity\Image", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $image;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location", type="string", length=255, nullable=true)
+     */
+    private $location;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    
 
     /**
      * @var string
@@ -63,49 +118,30 @@ class Job
     /**
      * @var int
      *
-     * @ORM\Column(name="position", type="integer")
+     * @ORM\Column(name="budget_min", type="integer", nullable=true)
      */
-    private $budget;
+    private $budget_min;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="budget_max", type="integer")
+     */
+    private $budget_max;
+
+    
 
     /**
      * @var string
      *
-     * @ORM\Column(name="location", type="string", length=255)
-     */
-    private $location;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="about_job", type="string", length=65535)
+     * @ORM\Column(name="about_job", type="string", length=65535, nullable=true)
      */
     private $about_job;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="overview", type="string", length=65535)
-     */
-    private $overview;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="skills_required", type="string", length=65535)
-     */
-    private $skills_required;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="how_to_apply", type="string", length=255)
-     */
-    private $howToApply;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="token", type="string", length=255)
+     * @ORM\Column(name="token", type="string", length=255), nullable=true)
      */
     private $token;
 
@@ -119,16 +155,10 @@ class Job
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_activated", type="boolean", nullable=true)
+     * @ORM\Column(name="is_activated", type="boolean")
      */
-    private $isActivated;
+    private $isActivated = true;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="expires_at", type="datetime")
-     */
-    private $expiresAt;
 
     /**
      * @var \DateTime
@@ -224,28 +254,6 @@ class Job
         return $this->location;
     }
 
-    /**
-     * Set howToApply
-     *
-     * @param string $howToApply
-     * @return Job
-     */
-    public function setHowToApply($howToApply)
-    {
-        $this->howToApply = $howToApply;
-
-        return $this;
-    }
-
-    /**
-     * Get howToApply
-     *
-     * @return string 
-     */
-    public function getHowToApply()
-    {
-        return $this->howToApply;
-    }
 
     /**
      * Set token
@@ -431,28 +439,6 @@ class Job
         return $this->user;
     }
 
-    /**
-     * Set budget
-     *
-     * @param integer $budget
-     * @return Job
-     */
-    public function setBudget($budget)
-    {
-        $this->budget = $budget;
-
-        return $this;
-    }
-
-    /**
-     * Get budget
-     *
-     * @return integer 
-     */
-    public function getBudget()
-    {
-        return $this->budget;
-    }
 
     /**
      * Set title
@@ -475,29 +461,6 @@ class Job
     public function getTitle()
     {
         return $this->title;
-    }
-
-    /**
-     * Set image
-     *
-     * @param string $image
-     * @return Job
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return string 
-     */
-    public function getImage()
-    {
-        return $this->image;
     }
 
     /**
@@ -546,26 +509,130 @@ class Job
         return $this->overview;
     }
 
+
     /**
-     * Set skills_required
+     * Set budget_min
      *
-     * @param string $skillsRequired
+     * @param integer $budgetMin
      * @return Job
      */
-    public function setSkillsRequired($skillsRequired)
+    public function setBudgetMin($budgetMin)
     {
-        $this->skills_required = $skillsRequired;
+        $this->budget_min = $budgetMin;
 
         return $this;
     }
 
     /**
-     * Get skills_required
+     * Get budget_min
      *
-     * @return string 
+     * @return integer 
      */
-    public function getSkillsRequired()
+    public function getBudgetMin()
     {
-        return $this->skills_required;
+        return $this->budget_min;
+    }
+
+    /**
+     * Set budget_max
+     *
+     * @param integer $budgetMax
+     * @return Job
+     */
+    public function setBudgetMax($budgetMax)
+    {
+        $this->budget_max = $budgetMax;
+
+        return $this;
+    }
+
+    /**
+     * Get budget_max
+     *
+     * @return integer 
+     */
+    public function getBudgetMax()
+    {
+        return $this->budget_max;
+    }
+
+    /**
+     * Set nombre_contributeur
+     *
+     * @param integer $nombreContributeur
+     * @return Job
+     */
+    public function setNombreContributeur($nombreContributeur)
+    {
+        $this->nombre_contributeur = $nombreContributeur;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre_contributeur
+     *
+     * @return integer 
+     */
+    public function getNombreContributeur()
+    {
+        return $this->nombre_contributeur;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Batis\CrowdsourcingBundle\Entity\Image $image
+     * @return Job
+     */
+    public function setImage(\Batis\CrowdsourcingBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Batis\CrowdsourcingBundle\Entity\Image 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+    
+
+    /**
+     * Add skills
+     *
+     * @param \Batis\CrowdsourcingBundle\Entity\Skill $skills
+     * @return Job
+     */
+    public function addSkill(\Batis\CrowdsourcingBundle\Entity\Skill $skills)
+    {
+        $this->skills[] = $skills;
+
+        return $this;
+    }
+
+    /**
+     * Remove skills
+     *
+     * @param \Batis\CrowdsourcingBundle\Entity\Skill $skills
+     */
+    public function removeSkill(\Batis\CrowdsourcingBundle\Entity\Skill $skills)
+    {
+        $this->skills->removeElement($skills);
+    }
+
+    /**
+     * Get skills
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSkills()
+    {
+        return $this->skills;
     }
 }

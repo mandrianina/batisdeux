@@ -5,13 +5,14 @@ namespace Batis\CrowdsourcingBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Category
+ * Skill
  *
- * @ORM\Table(name="category")
- * @ORM\Entity(repositoryClass="Batis\CrowdsourcingBundle\Repository\CategoryRepository")
+ * @ORM\Table(name="skill")
+ * @ORM\Entity(repositoryClass="Batis\CrowdsourcingBundle\Repository\SkillRepository")
  */
-class Category
+class Skill
 {
+    
 
     /**
      * @var int
@@ -44,7 +45,7 @@ class Category
      * Set name
      *
      * @param string $name
-     * @return Category
+     * @return Skill
      */
     public function setName($name)
     {

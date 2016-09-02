@@ -12,4 +12,56 @@ use Doctrine\ORM\EntityRepository;
  */
 class JobRepository extends EntityRepository
 {
+
+	public function getRecentJob($category_id = null, $max = null){
+
+		$qb = $this->createQueryBuilder('a');
+
+		if(!$max || $max <= 0)
+		{
+			$max = 5;
+		}
+		if($category_id)
+		{
+			$qb->where('a.category = :id')
+				->setParameter('id', $category_id);
+		}
+		$qb
+			->orderBy('a.createdAt', 'DESC')
+			->setMaxResults($max)
+		;
+
+		return $qb
+				->getQuery()
+				->getResult();
+
+	}
+
+	public function getActiveJobs($category_id = null, $max = null)
+	{
+		$qb = $this->createQueryBuilder('a')
+			->where('a.expiresAt > :date')
+			->setParameter('date', date('Y-m-d H:i:s', time()))
+			->orderBy('a.expiresAt', 'DESC');
+
+		if(!$max || $max <=0 )
+		{
+			$max = 5;
+		}
+
+		$qb->setMaxResults($max);
+
+		if($category_id)
+		{
+			$qb->andWhere('a.category = :id')
+				->setParameter('id', $category_id);
+
+		}
+
+		return $qb
+				->getQuery()
+				->getResult();
+	}
+
+
 }

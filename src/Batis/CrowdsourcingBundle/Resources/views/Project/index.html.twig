@@ -1,6 +1,7 @@
 {% extends 'BatisCrowdsourcingBundle::layout.html.twig' %}
 
 {% block crowdsourcing_body %}
+
 <div class="main-slider"><!-- start main-headline section -->
 				<div class="slider-nav">
 					<a class="slider-prev"><i class="fa fa-chevron-circle-left"></i></a>
@@ -31,7 +32,7 @@
 						<div class="col-md-6 align-left">
 							<h4>Ne cherchez plus , les pros sont là</h4>
 							<p>root admin</p>
-							<p><a href="#" class="btn btn-default btn-light" >Lancez votre projet</a></p>
+							<p><a href="{{ path('batis_crowdsourcing_postjob') }}" class="btn btn-default btn-light" >Lancez votre projet</a></p>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -46,14 +47,15 @@
 						<div id="tab-container" class='tab-container'><!-- Start Tabs -->
 							<ul class='etabs clearfix'>
 								<li class='tab'><a href="#all">All</a></li>
-								<li class='tab'><a href="#contract">Contract</a></li>
+								<!--<li class='tab'><a href="#contract">Contract</a></li>
 								<li class='tab'><a href="#full">Full Time</a></li>
-								<li class='tab'><a href="#free">Freelance</a></li>
+								<li class='tab'><a href="#free">Freelance</a></li>-->
 							</ul>
 							<div class='panel-container'>
 								<div id="all"><!-- Tabs section 1 -->
-
-								{% for i in 1..5 %}
+								
+							{% if recentJob is defined %}
+								{% for job in recentJob %}
 									<div class="recent-job-list-home"><!-- Tabs content -->
 										<div class="job-list-logo col-md-1 ">
 											{% image '@BatisCrowdsourcingBundle/Resources/public/images/upload/company-1-post.png' %}
@@ -61,106 +63,28 @@
 											{% endimage %}
 										</div>
 										<div class="col-md-6 job-list-desc">
-											<h6>Marketing</h6>
-											<p>Job content n°: {{ i }}</p>
+											<h6>{{ job.category.name }}</h6>
+											<p><a href="{{ path('batis_crowdsourcing_jobdetail', {'id' : job.id }) }}">{{ job.title }}</a></p>
 										</div>
 										<div class="col-md-5 full">
 											<div class="row">
 												<div class="job-list-location col-md-7 ">
-													<h6><i class="fa fa-map-marker"></i>Washington</h6>
+													<h6><i class="fa fa-map-marker"></i>{{ job.location }}</h6>
 												</div>
 												<div class="job-list-type col-md-5 ">
-													<h6><i class="fa fa-user"></i>Part Time </h6>
+													<h6><i class="fa fa-user"></i>{{ job.type }} </h6>
 												</div>
 											</div>
 										</div>
 										<div class="clearfix"></div>
 									</div>
 								{% endfor %}
+							{% endif %}
+
 								
 									
 								</div><!-- Tabs section 1 -->
-								<div id="contract"><!-- Tabs section 2 -->
-									{% for i in 1..5 %}
-									<div class="recent-job-list-home"><!-- Tabs content -->
-										<div class="job-list-logo col-md-1 ">
-											{% image '@BatisCrowdsourcingBundle/Resources/public/images/upload/company-1-post.png' %}
-    										<img src= " {{ asset_url }} " alt="dummy-joblist" class="img-responsive" />
-											{% endimage %}
-										</div>
-										<div class="col-md-6 job-list-desc">
-											<h6>Marketing</h6>
-											<p>Job content n°: {{ i }}</p>
-										</div>
-										<div class="col-md-5 full">
-											<div class="row">
-												<div class="job-list-location col-md-7 ">
-													<h6><i class="fa fa-map-marker"></i>Washington</h6>
-												</div>
-												<div class="job-list-type col-md-5 ">
-													<h6><i class="fa fa-user"></i>Contract </h6>
-												</div>
-											</div>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-								{% endfor %}
-									
-								</div><!-- Tabs section 2 -->
-								<div id="full"><!-- Tabs section 3 -->
-									{% for i in 1..5 %}
-									<div class="recent-job-list-home"><!-- Tabs content -->
-										<div class="job-list-logo col-md-1 ">
-											{% image '@BatisCrowdsourcingBundle/Resources/public/images/upload/company-1-post.png' %}
-    										<img src= " {{ asset_url }} " alt="dummy-joblist" class="img-responsive" />
-											{% endimage %}
-										</div>
-										<div class="col-md-6 job-list-desc">
-											<h6>Marketing</h6>
-											<p>Job content n°: {{ i }}</p>
-										</div>
-										<div class="col-md-5 full">
-											<div class="row">
-												<div class="job-list-location col-md-7 ">
-													<h6><i class="fa fa-map-marker"></i>Washington</h6>
-												</div>
-												<div class="job-list-type col-md-5 ">
-													<h6><i class="fa fa-user"></i>Full </h6>
-												</div>
-											</div>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-								{% endfor %}
-
-									
-								</div><!-- Tabs section 3 -->
-								<div id="free"><!-- Tabs section 4 -->
-									{% for i in 1..5 %}
-									<div class="recent-job-list-home"><!-- Tabs content -->
-										<div class="job-list-logo col-md-1 ">
-											{% image '@BatisCrowdsourcingBundle/Resources/public/images/upload/company-1-post.png' %}
-    										<img src= " {{ asset_url }} " alt="dummy-joblist" class="img-responsive" />
-											{% endimage %}
-										</div>
-										<div class="col-md-6 job-list-desc">
-											<h6>Marketing</h6>
-											<p>Job content n°: {{ i }}</p>
-										</div>
-										<div class="col-md-5 full">
-											<div class="row">
-												<div class="job-list-location col-md-7 ">
-													<h6><i class="fa fa-map-marker"></i>Washington</h6>
-												</div>
-												<div class="job-list-type col-md-5 ">
-													<h6><i class="fa fa-user"></i>Free </h6>
-												</div>
-											</div>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-								{% endfor %}	
-								</div><!-- Tabs section 4 -->
+				
 						 
 							</div>
 						</div><!-- end Tabs -->

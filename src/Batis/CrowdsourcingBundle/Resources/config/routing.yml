@@ -6,8 +6,31 @@ batis_crowdsourcing_postjob:
     path:     /postjob
     defaults: { _controller: BatisCrowdsourcingBundle:Project:add }
 
+batis_crowdsourcing_searchjob:
+    path:     /searchjob
+    defaults: { _controller: BatisCrowdsourcingBundle:Project:search }
+
+batis_crowdsourcing_applyto:
+    path:     /applyto/{id}
+    defaults: { _controller: BatisCrowdsourcingBundle:Project:applyto }
+    requirements:
+        id: \d+
+        
+batis_crowdsourcing_myjob:
+    path:     /myjob
+    defaults: { _controller: BatisCrowdsourcingBundle:Project:myjob }
+
+batis_crowdsourcing_myapplication:
+    path:     /myapplication
+    defaults: { _controller: BatisCrowdsourcingBundle:Project:myapplication}
+
+
 batis_crowdsourcing_jobdetail:
     path:     /jobdetail/{id}
     defaults: { _controller: BatisCrowdsourcingBundle:Project:view }
     requirements:
       id: \d+
+
+batis_crowdsourcing_category:
+    path:     /category/{id}
+    defaults: { _controller: BatisCrowdsourcingBundle:Project:category }

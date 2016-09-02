@@ -1,6 +1,9 @@
 {% extends 'BatisCrowdsourcingBundle::layout.html.twig' %}
 
 {% block crowdsourcing_body %}
+{% for message in app.session.flashbag.get('info') %}
+	<p>message</p>
+{% endfor %}
 		<div class="main-page-title"><!-- start main page title -->
 			<div class="container">
 				<h3 class="job-detail-title">{{ job.user.username }}</h3>
@@ -11,17 +14,24 @@
 					<li><i class="fa fa-facebook"></i><a href="#">Facebook</a></li>
 					<li><i class="fa fa-google-plus"></i><a href="#">Google+</a></li>
 					<li class="sline">|</li>
-					<li><i class="fa fa-list"></i><a href="#">More Job</a></li>
-					<li><i class="fa fa-tag"></i><a href="#">Store</a></li>
-					<li class="sline">|</li>
 					<li><i class="fa fa-share-square-o"></i><a href="#">Share</a></li>
 				</ul>
 				<div class="recent-job-detail">
 					<div class="col-md-5 job-detail-desc">
 						<h6>{{ job.title|upper }}</h6>
 					</div>
-					<div class="col-md-2 job-detail-name">
-						<h6>{{ job.budget }} ariary</h6>
+					<div class="col-md-2 job-detail-name ">
+						<div class="row">
+							<div class="col-md-12">
+								<h6>{{ job.budgetMin  }} ariary</h6>
+							</div>
+							<div class="col-md-12">
+								<h6>à</h6>
+							</div>
+							<div class="col-md-12">
+								<h6>{{ job.budgetMax }} ariary</h6>
+							</div>
+						</div>
 					</div>
 					<div class="col-md-2 job-detail-location">
 						<h6><i class="fa fa-map-marker"></i>{{ job.location }}</h6>
@@ -32,7 +42,7 @@
 								<h6><i class="fa fa-user"></i>{{ job.type }}</h6>
 							</div>
 							<div class="col-md-5 job-detail-button">
-								<button class="btn-apply-job" >APPLY</button>
+								<a href="{{ path('batis_crowdsourcing_applyto', {'id' : job.id }) }}" class="btn btn-default btn-blue btn-sm">Effectuer</a>
 							</div>
 						</div>
 					</div>
@@ -58,51 +68,54 @@
 		</div>
 		<div class="container job-detail">
 			<div class="spacer-1">&nbsp;</div>
-			<h6>Requis</h6>
+			<h6>Compétences requises</h6>
 			<div class="row">
 				<div class="col-md-6">
 					<ul class="style-list-2">
-						<li>{{ job.skillsrequired }}</li>
+					{% for skill in job.skills %}
+						<li>{{ skill.name }}</li>
+					{% endfor %}
 					</ul>
 				</div>
 			</div>
 
 
 			<div class="spacer-2">&nbsp;</div>
-			<h4><i class="glyphicon glyphicon-briefcase"></i> RELATED JOBS</h4>
+{% if applications != null %}
+			<h4><i class="glyphicon glyphicon-briefcase"></i>Les applicants</h4>
 				<div id="tab-container" class='tab-container'><!-- Start Tabs -->
 					<ul class='etabs clearfix'>
 						<li class='tab'><a href="#all">All</a></li>
-						<li class='tab'><a href="#contract">Contract</a></li>
-						<li class='tab'><a href="#full">Full Time</a></li>
-						<li class='tab'><a href="#free">Freelence</a></li>
 					</ul>
 
-					{% if relatedJob is defined %}
+					
 					<div class='panel-container'>
 						<div id="all"><!-- Tabs section 1 -->
 							<div class="recent-job-list"><!-- Tabs content -->
+
+							{% for application in applications %}
 								<div class="col-md-1 job-list-logo">
-									<img src="images/upload/company-1-post.png" class="img-responsive" alt="company-logo" />
+									<img src="" class="img-responsive" alt="user_logo" />
 								</div>
 								<div class="col-md-5 job-list-desc">
-									<h6>Store General Manager</h6>
-									<p>Similique sunt in culpa qui officia deserunt mollitia animi</p>
+									<h6>{{ application.user.username }}</h6>
+									<p>{{ application.description }}</p>
 								</div>
 								<div class="col-md-3 job-list-location">
-									<h6><i class="fa fa-map-marker"></i>San Fransisco</h6>
+									<h6><i class="fa fa-map-marker"></i>{{ application.temps|date('Y-m-d') }}</h6>
 								</div>
 								<div class="col-md-3">
 									<div class="row">
 										<div class="col-md-7 job-list-type">
-											<h6><i class="fa fa-user"></i>Full Time</h6>
+											<h6><i class="fa fa-user"></i>{{ application.budget }} ariary</h6>
 										</div>
 										<div class="col-md-5 job-list-button">
-											<button class="btn-view-job" >View Job</button>
+											<button class="btn-view-job" >Sélectionner</button>
 										</div>
 									</div>
 								</div>
 								<div class="clearfix"></div>
+							{% endfor %}
 							</div><!-- Tabs content -->
 
 						</div><!-- Tabs section 1 -->
@@ -113,7 +126,10 @@
 						<div id="free"><!-- Tabs section 4 -->
 						</div><!-- Tabs section 4 -->
 					</div>
-					{% endif %}
 				</div><!-- end Tabs -->
+{% else %}
+<p> Pas encore d'application pour cette offre </p>
+<div class="spacer-2">&nbsp;</div>
+{% endif %}
 			</div>
 {% endblock %}

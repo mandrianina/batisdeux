@@ -1,0 +1,5 @@
+<ul class="nav">
+{% for job in jobs %}
+	<li><a href="{{ path('batis_crowdsourcing_jobdetail', {'id' : job.id }) }}">{{ job.title }}</a></li>
+{% endfor %}
+</ul>
