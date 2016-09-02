@@ -34,3 +34,7 @@ batis_crowdsourcing_jobdetail:
 batis_crowdsourcing_category:
     path:     /category/{id}
     defaults: { _controller: BatisCrowdsourcingBundle:Project:category }
+
+batis_crowdsourcing_list:
+    path:     /list
+    defaults: { _controller: BatisCrowdsourcingBundle:Project:list }

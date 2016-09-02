@@ -111,12 +111,32 @@ class ProjectController extends Controller
 
         return $this->render('BatisCrowdsourcingBundle:Project:post-job.html.twig',array('form' => $form->createView()));
     }
-    public function searchAction()
+    public function searchAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository('BatisCrowdsourcingBundle:Category')->findAll();
 
-        return $this->render('BatisCrowdsourcingBundle:Project:search-job.html.twig', array('categories' => $categories));
+        $jobs = $em->getRepository('BatisCrowdsourcingBundle:Job')->findAll();
+
+        if(!$request->get('page_name'))
+        {
+            $page = 1;
+        }
+        else
+        {
+            $page= $request->get('page_name');
+        }
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $jobs,
+            $request->query->getInt('page', $page),
+            10
+            );
+
+        return $this->render('BatisCrowdsourcingBundle:Project:search-job.html.twig', 
+            array('categories' => $categories,
+                  'jobs' => $pagination,
+                ));
     }
 
     public function categoryAction($id)
@@ -193,6 +213,29 @@ class ProjectController extends Controller
         }
 
         return $this->render('BatisCrowdsourcingBundle:Project:apply-to.html.twig', array('form' => $form->createView()));
+    }
+
+    public function listAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $jobs = $em->getRepository('BatisCrowdsourcingBundle:Job')->findAll();
+
+        if(!$request->get('page_name'))
+        {
+            $page = 1;
+        }
+        else
+        {
+            $page= $request->get('page_name');
+        }
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $jobs,
+            $request->query->getInt('page', $page),
+            10
+            );
+
+        return $this->render('BatisCrowdsourcingBundle:Project:list.html.twig', array('jobs' => $pagination));
     }
 
 }

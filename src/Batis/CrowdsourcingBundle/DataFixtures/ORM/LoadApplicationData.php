@@ -11,25 +11,27 @@ class LoadApplicationData extends AbstractFixture implements OrderedFixtureInter
 {
     public function load(ObjectManager $manager)
     {
+        for($j = 0 ; $j < 100 ; $j++)
+        {
+            $job = $this->getReference('job'.$j);
             for($i = 0 ; $i < 10; $i++)
-            {    
-                $job = $this->getReference('job'.$i);
+            {       
                 $application = new Application();
                 $application->setUser($this->getReference('userapplicant'));
                 $application->setJob($job);
                 $application->setDescription("Je suis super intéréssé ".$i);
-                $application->setTemps(new \DateTime());
+                $application->setTemps(10);
                 $application->setBudget(450 + (int)$i);
 
                 $manager->persist($application);
             }
-
+        }
         $manager->flush();
 
     }
 
     public function getOrder()
     {
-        return 4;
+        return 6;
     }
 }

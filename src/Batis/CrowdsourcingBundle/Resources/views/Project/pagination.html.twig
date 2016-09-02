@@ -1,0 +1,52 @@
+<div class="row">
+	<div class="col-md-offset-1 col-md-10 col-md-offset-1">
+						<h4><i class="glyphicon glyphicon-briefcase"></i>Resultats {{ jobs.getTotalItemCount }} </h4>
+						<div id="tab-container" class='tab-container'><!-- Start Tabs -->
+							<ul class='etabs clearfix'>
+								<li class='tab'>{{ knp_pagination_sortable(jobs, 'Tous', 'job.id') }}</li>
+								<li class='tab'>{{ knp_pagination_sortable(jobs, 'Par Titre', 'job.title') }}</li>
+								<li class='tab'>{{ knp_pagination_sortable(jobs, 'Par Date de création', 'job.createdAt') }}</li>
+								<li class='tab'>{{ knp_pagination_sortable(jobs, 'Par Date d\'écheance', 'job.expiresAt') }}</li>
+							</ul>
+							<div class='panel-container'>
+
+								
+							{% if jobs != null %}
+								{% for job in jobs %}
+									<div class="recent-job-list-home"><!-- Tabs content -->
+										<div class="job-list-logo col-md-1 ">
+											{% image '@BatisCrowdsourcingBundle/Resources/public/images/upload/company-1-post.png' %}
+    										<img src= " {{ asset_url }} " alt="dummy-joblist" class="img-responsive" />
+											{% endimage %}
+										</div>
+										<div class="col-md-6 job-list-desc">
+											<h6>{{ job.category.name }}</h6>
+											<p><a href="{{ path('batis_crowdsourcing_jobdetail', {'id' : job.id }) }}">{{ job.title }}</a></p>
+										</div>
+										<div class="col-md-5 full">
+											<div class="row">
+												<div class="job-list-location col-md-7 ">
+													<h6><i class="fa fa-map-marker"></i>{{ job.location }}</h6>
+												</div>
+												<div class="job-list-type col-md-5 ">
+													<h6><i class="fa fa-user"></i>{{ job.type }} </h6>
+												</div>
+											</div>
+										</div>
+										<div class="clearfix"></div>
+								{% endfor %}
+							{% endif %}
+
+								
+									
+								</div><!-- Tabs section 1 -->
+				
+						 
+							</div>
+						</div><!-- end Tabs -->
+						<div class="navigation">
+							{{ knp_pagination_render(jobs) }}
+						</div>
+						<div class="spacer-2"></div>
+	</div>
+</div>					
